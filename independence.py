@@ -57,14 +57,16 @@ class CachedIndependencePolynomial:
         # For each dist we store a cache.
         self.cache = [{} for _ in range(self.dists[-1] + 1)]
 
-    def plot(self):
+    def plot(self, mask=None):
         import matplotlib.pyplot as plt
         import numpy as np
 
         G_n = np.array(self.pts)
-        plt.scatter(G_n[:, 0], G_n[:, 1])
         for v, pt in enumerate(self.pts):
+            if mask and not mask[v]: continue
+            plt.scatter(G_n[v, 0], G_n[v, 1])
             for n_v in self.nbrs[v]:
+                if mask and not mask[n_v]: continue
                 plt.plot([G_n[v][0], G_n[n_v][0]], [G_n[v][1], G_n[n_v][1]],
                          c='b')
 
